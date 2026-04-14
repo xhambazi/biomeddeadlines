@@ -29,7 +29,7 @@
   .conf { background: var(--card); border: 1px solid var(--border); border-left: 4px solid var(--green); border-radius: 10px; padding: 18px; }
   .conf.urgent { border-left-color: var(--red); } 
   .conf.soon { border-left-color: var(--amber); } 
-  .conf.past { opacity: 0.6; border-left-color: #bbb; padding: 12px 18px; }
+  .conf.past { opacity: 0.6; border-left-color: #bbb; padding: 12px 18px; background: #f9f9f7; }
   .conf-top { display: flex; justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 10px;} 
   .countdown { font-weight: bold; font-size: 13px; }
   .countdown.urgent { color: var(--red); } 
@@ -41,15 +41,17 @@
   .fullname { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
   .meta { display: flex; gap: 20px; font-size: 13px; flex-wrap: wrap; margin-bottom: 12px; } 
   .label { color: var(--muted); font-size: 10px; text-transform: uppercase; }
-  
-  /* NEW: Styling for the requirements box */
   .requirements-box { background: var(--gray-soft); padding: 10px 14px; border-radius: 6px; border-left: 3px solid var(--accent); font-size: 12px; color: var(--ink); margin-bottom: 12px; }
   .requirements-box strong { color: var(--accent); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 4px; }
-  
   .cta-row { margin-top: 5px; font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 15px; }
   .secondary-link { color: var(--muted); font-weight: normal; text-decoration: none; }
   .secondary-link:hover { text-decoration: underline; }
   
+  /* Styling for the Toggle Section */
+  .past-toggle-container { text-align: center; margin: 30px 0 10px; border-top: 1px dashed var(--border); padding-top: 20px; }
+  .toggle-btn { background: var(--gray-soft); border: 1px solid var(--border); padding: 8px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; color: var(--muted); font-weight: 500; }
+  .toggle-btn:hover { background: #ebebe5; }
+
   details > summary { list-style: none; }
   details > summary::-webkit-details-marker { display: none; }
 </style>
@@ -78,6 +80,7 @@
     </div>
 
     <div class="list" id="list">Loading conferences...</div>
+    <div id="past-section"></div>
   </main>
 </div>
 
@@ -89,6 +92,7 @@ let conferences = [];
 let query = "";
 let activeSubfield = null;
 let activeAudience = null;
+let showPast = false; // Controls visibility of expired conferences
 
 function daysUntil(iso) {
   const target = new Date(iso + "T00:00:00");
@@ -112,7 +116,9 @@ function renderChips() {
 function render() {
   renderChips();
   const list = document.getElementById("list");
+  const pastSection = document.getElementById("past-section");
   list.innerHTML = "";
+  pastSection.innerHTML = "";
   
   let filtered = conferences.filter(c => c.name.toLowerCase().includes(query) || c.location.toLowerCase().includes(query));
   if (activeSubfield) filtered = filtered.filter(c => c.tags && c.tags.includes(activeSubfield));
@@ -120,20 +126,20 @@ function render() {
 
   filtered.sort((a, b) => new Date(a.abstractDeadline) - new Date(b.abstractDeadline));
 
-  for (const c of filtered) {
+  const activeConfs = filtered.filter(c => daysUntil(c.abstractDeadline) >= 0);
+  const pastConfs = filtered.filter(c => daysUntil(c.abstractDeadline) < 0);
+
+  // Helper to generate Card HTML
+  function createCard(c, isPast) {
     const d = daysUntil(c.abstractDeadline);
     const status = d < 0 ? "past" : d < 14 ? "urgent" : d < 45 ? "soon" : "ok";
-    
     const audTags = c.audience ? c.audience.map(a => `<span class="tag-audience">${AUDIENCES[a]||a}</span>`).join('') : '';
     const subTags = c.tags ? c.tags.map(t => `<span class="tag">${SUBFIELDS[t]||t}</span>`).join('') : '';
-    
     const deadlineLinkHTML = c.deadlineUrl ? `<a href="${c.deadlineUrl}" class="secondary-link" target="_blank">Verify Date ↗</a>` : '';
-    
-    // NEW: Generate the requirements HTML block if the data exists
     const requirementsHTML = c.requirements ? `<div class="requirements-box"><strong>Submission Requirements:</strong>${c.requirements}</div>` : '';
 
-    if (status === "past") {
-      list.innerHTML += `
+    if (isPast) {
+        return `
         <details class="conf past">
           <summary style="cursor: pointer; outline: none; display: flex; align-items: center; gap: 10px;">
             <span class="countdown past">Closed</span>
@@ -148,14 +154,11 @@ function render() {
               <div><div class="label">Location</div><div>${c.location}</div></div>
             </div>
             ${requirementsHTML}
-            <div class="cta-row">
-              <a href="${c.url}" target="_blank">View Website →</a>
-              ${deadlineLinkHTML}
-            </div>
+            <div class="cta-row"><a href="${c.url}" target="_blank">View Website →</a>${deadlineLinkHTML}</div>
           </div>
         </details>`;
     } else {
-      list.innerHTML += `
+        return `
         <div class="conf ${status}">
           <div class="conf-top">
             <span class="countdown ${status}">${d + ' days left'}</span>
@@ -168,12 +171,26 @@ function render() {
             <div><div class="label">Location</div><div>${c.location}</div></div>
           </div>
           ${requirementsHTML}
-          <div class="cta-row">
-            <a href="${c.url}" target="_blank">View Website →</a>
-            ${deadlineLinkHTML}
-          </div>
+          <div class="cta-row"><a href="${c.url}" target="_blank">View Website →</a>${deadlineLinkHTML}</div>
         </div>`;
     }
+  }
+
+  // Render Active
+  activeConfs.forEach(c => list.innerHTML += createCard(c, false));
+
+  // Render Past Toggle
+  if (pastConfs.length > 0) {
+    pastSection.innerHTML = `
+      <div class="past-toggle-container">
+        <button class="toggle-btn" onclick="showPast = !showPast; render();">
+          ${showPast ? 'Hide Expired Deadlines' : 'Show Expired Deadlines (' + pastConfs.length + ')'}
+        </button>
+      </div>
+      <div id="past-list" class="list" style="display: ${showPast ? 'grid' : 'none'}; margin-top: 20px;"></div>
+    `;
+    const pastList = document.getElementById("past-list");
+    pastConfs.forEach(c => pastList.innerHTML += createCard(c, true));
   }
 }
 
@@ -189,7 +206,7 @@ fetch('conferences.json')
     document.getElementById("list").innerHTML = `
       <div style="background: #fde8ea; color: #c1121f; padding: 20px; border-radius: 10px; border: 1px solid #c1121f;">
         <strong>⚠️ Database Error Detected!</strong><br><br>
-        Your website loaded, but there is a typo or extra comma in your <code>conferences.json</code> file preventing the data from loading. Check your JSON file!
+        Check your <code>conferences.json</code> file for typos.
       </div>`;
   });
 </script>
