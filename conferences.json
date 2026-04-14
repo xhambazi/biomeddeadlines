@@ -198,5 +198,109 @@
     "name": "EASL 2026", "fullName": "European Association for the Study of the Liver", "tags": ["clinical"],
     "abstractDeadline": "2025-11-30", "conferenceStart": "2026-06-03", "conferenceEnd": "2026-06-06",
     "location": "Milan, Italy", "url": "https://easl.eu/events/"
+  },
+  ,{
+    "name": "ISMB 2026", "fullName": "Intelligent Systems for Molecular Biology", "tags": ["bioinfo", "genetics"],
+    "audience": ["grad", "early", "biotech"],
+    "abstractDeadline": "2026-01-22", "conferenceStart": "2026-07-12", "conferenceEnd": "2026-07-16",
+    "location": "Montreal, Canada", "url": "https://www.iscb.org/"
+  },
+  {
+    "name": "ACMG 2026", "fullName": "American College of Medical Genetics and Genomics", "tags": ["genetics", "clinical"],
+    "audience": ["med", "clinician", "grad"],
+    "abstractDeadline": "2025-11-15", "conferenceStart": "2026-03-17", "conferenceEnd": "2026-03-21",
+    "location": "Las Vegas, NV", "url": "https://www.acmg.net/"
+  },
+  {
+    "name": "PAS 2026", "fullName": "Pediatric Academic Societies Meeting", "tags": ["peds", "clinical"],
+    "audience": ["med", "clinician", "early"],
+    "abstractDeadline": "2026-01-05", "conferenceStart": "2026-05-01", "conferenceEnd": "2026-05-05",
+    "location": "Honolulu, HI", "url": "https://www.pas-meeting.org/"
+  },
+  {
+    "name": "ACS Clinical Congress 2026", "fullName": "American College of Surgeons", "tags": ["surgery", "clinical"],
+    "audience": ["med", "clinician"],
+    "abstractDeadline": "2026-03-01", "conferenceStart": "2026-10-18", "conferenceEnd": "2026-10-22",
+    "location": "Boston, MA", "url": "https://www.facs.org/for-medical-professionals/education/clinical-congress/"
+  },
+  {
+    "name": "CUGH 2026", "fullName": "Consortium of Universities for Global Health", "tags": ["global", "id"],
+    "audience": ["undergrad", "grad", "med"],
+    "abstractDeadline": "2025-09-30", "conferenceStart": "2026-02-19", "conferenceEnd": "2026-02-22",
+    "location": "Washington, DC", "url": "https://www.cugh.org/"
+  },
+  {
+    "name": "HIMSS 2026", "fullName": "Healthcare Information and Management Systems Society", "tags": ["bioinfo", "global"],
+    "audience": ["biotech", "clinician", "investor"],
+    "abstractDeadline": "2025-08-15", "conferenceStart": "2026-03-09", "conferenceEnd": "2026-03-13",
+    "location": "Las Vegas, NV", "url": "https://www.himss.org/global-conference"
+  },
+  {
+    "name": "ONS Congress 2026", "fullName": "Oncology Nursing Society", "tags": ["cancer", "clinical"],
+    "audience": ["nurse"],
+    "abstractDeadline": "2025-08-01", "conferenceStart": "2026-04-29", "conferenceEnd": "2026-05-03",
+    "location": "Orlando, FL", "url": "https://www.ons.org/congress"
+  },
+  {
+    "name": "AST 2026", "fullName": "American Society of Transplantation", "tags": ["surgery", "immuno"],
+    "audience": ["clinician", "med"],
+    "abstractDeadline": "2025-12-01", "conferenceStart": "2026-05-30", "conferenceEnd": "2026-06-03",
+    "location": "San Diego, CA", "url": "https://www.myast.org/"
+  },
+  ,{
+    "name": "APA 2026", "fullName": "American Psychiatric Association Annual Meeting", "tags": ["psych", "clinical"],
+    "audience": ["med", "clinician", "grad"],
+    "abstractDeadline": "2025-09-10", "conferenceStart": "2026-05-16", "conferenceEnd": "2026-05-20",
+    "location": "New York, NY", "url": "https://www.psychiatry.org/",
+    "deadlineUrl": "https://www.psychiatry.org/psychiatrists/meetings/annual-meeting/abstract-submissions"
+  },
+  {
+    "name": "AAD 2026", "fullName": "American Academy of Dermatology Annual Meeting", "tags": ["derm", "clinical"],
+    "audience": ["med", "clinician", "early"],
+    "abstractDeadline": "2025-08-15", "conferenceStart": "2026-03-27", "conferenceEnd": "2026-03-31",
+    "location": "Denver, CO", "url": "https://www.aad.org/member/meetings-education",
+    "deadlineUrl": "https://www.aad.org/member/meetings-education/am26/abstracts"
+  },
+  {
+    "name": "ARVO 2026", "fullName": "Association for Research in Vision and Ophthalmology", "tags": ["vision", "clinical", "cellbio"],
+    "audience": ["clinician", "grad", "undergrad"],
+    "abstractDeadline": "2025-12-05", "conferenceStart": "2026-05-03", "conferenceEnd": "2026-05-07",
+    "location": "Denver, CO", "url": "https://www.arvo.org/",
+    "deadlineUrl": "https://www.arvo.org/annual-meeting/abstracts/"
+  },
+  {
+    "name": "ASTMH 2026", "fullName": "American Society of Tropical Medicine and Hygiene", "tags": ["global", "id"],
+    "audience": ["grad", "med", "clinician"],
+    "abstractDeadline": "2026-04-10", "conferenceStart": "2026-10-25", "conferenceEnd": "2026-10-29",
+    "location": "Chicago, IL", "url": "https://www.astmh.org/",
+    "deadlineUrl": "https://www.astmh.org/annual-meeting/call-for-abstracts"
+  },
+  {
+    "name": "WMIC 2026", "fullName": "World Molecular Imaging Congress", "tags": ["imaging", "biomedeng"],
+    "audience": ["grad", "early", "biotech"],
+    "abstractDeadline": "2026-04-25", "conferenceStart": "2026-09-09", "conferenceEnd": "2026-09-12",
+    "location": "TBD", "url": "https://www.wmis.org/",
+    "deadlineUrl": "https://www.wmis.org/abstract-submission/"
+  },
+  {
+    "name": "ASBMR 2026", "fullName": "American Society for Bone and Mineral Research", "tags": ["endo", "cellbio"],
+    "audience": ["grad", "early", "pharma"],
+    "abstractDeadline": "2026-05-08", "conferenceStart": "2026-09-25", "conferenceEnd": "2026-09-28",
+    "location": "Toronto, Canada", "url": "https://www.asbmr.org/",
+    "deadlineUrl": "https://www.asbmr.org/annual-meeting/abstracts"
+  },
+  {
+    "name": "TCT 2026", "fullName": "Transcatheter Cardiovascular Therapeutics", "tags": ["cardio", "surgery", "clinical"],
+    "audience": ["clinician", "biotech", "investor"],
+    "abstractDeadline": "2026-06-15", "conferenceStart": "2026-10-24", "conferenceEnd": "2026-10-27",
+    "location": "Washington, DC", "url": "https://tct2026.crfconnect.com/",
+    "deadlineUrl": "https://tct2026.crfconnect.com/abstracts"
+  },
+  {
+    "name": "AABB 2026", "fullName": "Association for the Advancement of Blood & Biotherapies", "tags": ["hematology", "clinical"],
+    "audience": ["clinician", "nurse", "biotech"],
+    "abstractDeadline": "2026-05-01", "conferenceStart": "2026-10-17", "conferenceEnd": "2026-10-20",
+    "location": "San Diego, CA", "url": "https://www.aabb.org/",
+    "deadlineUrl": "https://www.aabb.org/annual-meeting/call-for-abstracts"
   }
 ]
