@@ -2,7 +2,7 @@
 
 Welcome to **BiomedDeadlines**, a clean, automated, and crowdsourced tracker for biomedical, clinical, and biotech conference abstract deadlines.
 
-You can visit the live website here: [(https://xhambazi.github.io/biomeddeadlines/)]
+You can visit the live website here: [(https://jambuzz.github.io/biomeddeadlines/)]
 
 ## 🌟 Features
 * **Live Search:** Instantly search by conference name, city, or keyword.
