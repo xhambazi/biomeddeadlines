@@ -247,7 +247,7 @@
     "abstractDeadline": "2025-12-01", "conferenceStart": "2026-05-30", "conferenceEnd": "2026-06-03",
     "location": "San Diego, CA", "url": "https://www.myast.org/"
   },
-  ,{
+  {
     "name": "APA 2026", "fullName": "American Psychiatric Association Annual Meeting", "tags": ["psych", "clinical"],
     "audience": ["med", "clinician", "grad"],
     "abstractDeadline": "2025-09-10", "conferenceStart": "2026-05-16", "conferenceEnd": "2026-05-20",
