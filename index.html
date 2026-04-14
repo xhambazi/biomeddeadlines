@@ -5,10 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BiomedDeadlines — Abstract deadlines for conferences</title>
 <style>
-  :root { --bg: #fafaf7; --card: #ffffff; --ink: #1a1a1a; --muted: #6b6b6b; --accent: #2d6a4f; --border: #e5e5e0; --red: #c1121f; --amber: #b07800; --green: #2d6a4f; --blue: #0284c7; --blue-soft: #e0f2fe; --gray-soft: #f3f3ee; }
-  * { box-sizing: border-box; } body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--ink); margin: 0; line-height: 1.5; }
-  a { color: var(--accent); } header { border-bottom: 1px solid var(--border); background: var(--card); padding: 22px 24px; }
-  .header-inner { max-width: 1200px; margin: 0 auto; } h1 { margin: 0; font-size: 24px; } h1 span { color: var(--accent); }
+  :root { 
+    --bg: #fafaf7; --card: #ffffff; --ink: #1a1a1a; --muted: #6b6b6b; 
+    --accent: #2d6a4f; --border: #e5e5e0; --red: #c1121f; --amber: #b07800; 
+    --green: #2d6a4f; --blue: #0284c7; --blue-soft: #e0f2fe; --gray-soft: #f3f3ee; 
+  }
+  * { box-sizing: border-box; } 
+  body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--ink); margin: 0; line-height: 1.5; }
+  a { color: var(--accent); } 
+  header { border-bottom: 1px solid var(--border); background: var(--card); padding: 22px 24px; }
+  .header-inner { max-width: 1200px; margin: 0 auto; } 
+  h1 { margin: 0; font-size: 24px; } 
+  h1 span { color: var(--accent); }
   .layout { max-width: 1200px; margin: 24px auto; padding: 0 24px; display: grid; grid-template-columns: 1fr; gap: 28px; }
   .controls { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 20px; }
   .search-container input { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 16px; font-family: inherit; }
@@ -19,13 +27,20 @@
   .chip.audience.active { background: var(--blue); border-color: var(--blue); color: #fff; }
   .list { display: grid; gap: 14px; }
   .conf { background: var(--card); border: 1px solid var(--border); border-left: 4px solid var(--green); border-radius: 10px; padding: 18px; }
-  .conf.urgent { border-left-color: var(--red); } .conf.soon { border-left-color: var(--amber); } .conf.past { opacity: 0.6; border-left-color: #bbb; }
-  .conf-top { display: flex; justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 10px;} .countdown { font-weight: bold; font-size: 13px; }
-  .countdown.urgent { color: var(--red); } .countdown.soon { color: var(--amber); } .countdown.ok { color: var(--green); }
+  .conf.urgent { border-left-color: var(--red); } 
+  .conf.soon { border-left-color: var(--amber); } 
+  .conf.past { opacity: 0.6; border-left-color: #bbb; }
+  .conf-top { display: flex; justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 10px;} 
+  .countdown { font-weight: bold; font-size: 13px; }
+  .countdown.urgent { color: var(--red); } 
+  .countdown.soon { color: var(--amber); } 
+  .countdown.ok { color: var(--green); }
   .tag { font-size: 11px; background: var(--gray-soft); padding: 3px 8px; border-radius: 10px; margin-right: 4px; color: var(--muted); }
   .tag-audience { font-size: 11px; background: var(--blue-soft); color: var(--blue); padding: 3px 8px; border-radius: 10px; margin-right: 4px; font-weight: 600; }
-  h2 { margin: 0 0 5px; font-size: 18px; } .fullname { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
-  .meta { display: flex; gap: 20px; font-size: 13px; flex-wrap: wrap; } .label { color: var(--muted); font-size: 10px; text-transform: uppercase; }
+  h2 { margin: 0 0 5px; font-size: 18px; } 
+  .fullname { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+  .meta { display: flex; gap: 20px; font-size: 13px; flex-wrap: wrap; } 
+  .label { color: var(--muted); font-size: 10px; text-transform: uppercase; }
   .cta-row { margin-top: 15px; font-size: 13px; font-weight: bold; }
 </style>
 </head>
@@ -48,7 +63,7 @@
     <div style="background: #e0f2fe; border: 1px dashed #0284c7; border-radius: 10px; padding: 15px; text-align: center; margin-bottom: 20px;">
       <span style="font-size: 11px; color: #0284c7; text-transform: uppercase; font-weight: bold; display: block; margin-bottom: 5px;">Advertisement</span>
       <a href="mailto:YOUR_EMAIL@gmail.com" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 15px;">
-        Want to reach 1,000+ biomedical researchers? <span style="color: #0284c7;">Click here to sponsor this space!</span>
+        Want to reach biomedical researchers? <span style="color: #0284c7;">Click here to sponsor this space!</span>
       </a>
     </div>
     <div class="list" id="list">Loading conferences...</div>
