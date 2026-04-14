@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BiomedDeadlines — Abstract deadlines for conferences</title>
+<style>
+  :root { --bg: #fafaf7; --card: #ffffff; --ink: #1a1a1a; --muted: #6b6b6b; --accent: #2d6a4f; --border: #e5e5e0; --red: #c1121f; --amber: #b07800; --green: #2d6a4f; --blue: #0284c7; --blue-soft: #e0f2fe; --gray-soft: #f3f3ee; }
+  * { box-sizing: border-box; } body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--ink); margin: 0; line-height: 1.5; }
+  a { color: var(--accent); } header { border-bottom: 1px solid var(--border); background: var(--card); padding: 22px 24px; }
+  .header-inner { max-width: 1200px; margin: 0 auto; } h1 { margin: 0; font-size: 24px; } h1 span { color: var(--accent); }
+  .layout { max-width: 1200px; margin: 24px auto; padding: 0 24px; display: grid; grid-template-columns: 1fr; gap: 28px; }
+  .controls { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 20px; }
+  .search-container input { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 16px; font-family: inherit; }
+  h3 { margin: 10px 0 8px; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 15px; }
+  .chip { padding: 6px 12px; border-radius: 20px; font-size: 13px; border: 1px solid var(--border); background: #fff; cursor: pointer; transition: 0.2s; }
+  .chip.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .chip.audience.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+  .list { display: grid; gap: 14px; }
+  .conf { background: var(--card); border: 1px solid var(--border); border-left: 4px solid var(--green); border-radius: 10px; padding: 18px; }
+  .conf.urgent { border-left-color: var(--red); } .conf.soon { border-left-color: var(--amber); } .conf.past { opacity: 0.6; border-left-color: #bbb; }
+  .conf-top { display: flex; justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 10px;} .countdown { font-weight: bold; font-size: 13px; }
+  .countdown.urgent { color: var(--red); } .countdown.soon { color: var(--amber); } .countdown.ok { color: var(--green); }
+  .tag { font-size: 11px; background: var(--gray-soft); padding: 3px 8px; border-radius: 10px; margin-right: 4px; color: var(--muted); }
+  .tag-audience { font-size: 11px; background: var(--blue-soft); color: var(--blue); padding: 3px 8px; border-radius: 10px; margin-right: 4px; font-weight: 600; }
+  h2 { margin: 0 0 5px; font-size: 18px; } .fullname { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+  .meta { display: flex; gap: 20px; font-size: 13px; flex-wrap: wrap; } .label { color: var(--muted); font-size: 10px; text-transform: uppercase; }
+  .cta-row { margin-top: 15px; font-size: 13px; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<header><div class="header-inner"><h1>Biomed<span>Deadlines</span></h1></div></header>
+
+<div class="layout">
+  <main>
+    <div class="controls">
+      <div class="search-container"><input type="text" id="searchBar" placeholder="Search conferences, cities, or keywords..."></div>
+      
+      <h3>Filter by Subfield</h3>
+      <div class="chips" id="subfieldChips"></div>
+
+      <h3>Filter by Career Stage / Target Audience</h3>
+      <div class="chips" id="audienceChips"></div>
+    </div>
+    
+    <div class="list" id="list">Loading conferences...</div>
+  </main>
+</div>
+
+<script>
+const SUBFIELDS = { cancer: "Cancer", immuno: "Immunology", neuro: "Neuroscience", cardio: "Cardiology", imaging: "Imaging", cellbio: "Cell Bio", biophysics: "Biophysics", hematology: "Hematology", pulm: "Pulmonary", endo: "Endocrine", id: "Infectious Disease", ent: "ENT", biomedeng: "Biomedical Eng", radonc: "Radiation Onc", clinical: "Clinical" };
+const AUDIENCES = { undergrad: "Undergrads", grad: "Grads & PhDs", early: "New Scientists / Postdocs", med: "Med Students", clinician: "Clinicians / MDs", biotech: "Biotech / Industry" };
+
+let conferences = [];
+let query = "";
+let activeSubfield = null;
+let activeAudience = null;
+
+function daysUntil(iso) {
+  const target = new Date(iso + "T00:00:00");
+  return Math.floor((target - new Date().setHours(0,0,0,0)) / 86400000);
+}
+
+function renderChips() {
+  const subContainer = document.getElementById("subfieldChips");
+  subContainer.innerHTML = `<button class="chip ${!activeSubfield ? 'active' : ''}" onclick="activeSubfield=null; render();">All Subfields</button>`;
+  for(let key in SUBFIELDS) {
+    subContainer.innerHTML += `<button class="chip ${activeSubfield===key ? 'active' : ''}" onclick="activeSubfield='${key}'; render();">${SUBFIELDS[key]}</button>`;
+  }
+
+  const audContainer = document.getElementById("audienceChips");
+  audContainer.innerHTML = `<button class="chip audience ${!activeAudience ? 'active' : ''}" onclick="activeAudience=null; render();">All Audiences</button>`;
+  for(let key in AUDIENCES) {
+    audContainer.innerHTML += `<button class="chip audience ${activeAudience===key ? 'active' : ''}" onclick="activeAudience='${key}'; render();">${AUDIENCES[key]}</button>`;
+  }
+}
+
+function render() {
+  renderChips();
+  const list = document.getElementById("list");
+  list.innerHTML = "";
+  
+  // Apply Search
+  let filtered = conferences.filter(c => c.name.toLowerCase().includes(query) || c.location.toLowerCase().includes(query));
+  
+  // Apply Subfield Filter
+  if (activeSubfield) {
+    filtered = filtered.filter(c => c.tags && c.tags.includes(activeSubfield));
+  }
+  
+  // Apply Audience Filter
+  if (activeAudience) {
+    filtered = filtered.filter(c => c.audience && c.audience.includes(activeAudience));
+  }
+
+  filtered.sort((a, b) => new Date(a.abstractDeadline) - new Date(b.abstractDeadline));
+
+  for (const c of filtered) {
+    const d = daysUntil(c.abstractDeadline);
+    const status = d < 0 ? "past" : d < 14 ? "urgent" : d < 45 ? "soon" : "ok";
+    
+    // Generate tags
+    const audTags = c.audience ? c.audience.map(a => `<span class="tag-audience">${AUDIENCES[a]||a}</span>`).join('') : '';
+    const subTags = c.tags ? c.tags.map(t => `<span class="tag">${SUBFIELDS[t]||t}</span>`).join('') : '';
+
+    list.innerHTML += `
+      <div class="conf ${status}">
+        <div class="conf-top">
+          <span class="countdown ${status}">${d < 0 ? 'Closed' : d + ' days left'}</span>
+          <div>${audTags}${subTags}</div>
+        </div>
+        <h2>${c.name}</h2><div class="fullname">${c.fullName}</div>
+        <div class="meta">
+          <div><div class="label">Deadline</div><div>${c.abstractDeadline}</div></div>
+          <div><div class="label">Dates</div><div>${c.conferenceStart} to ${c.conferenceEnd}</div></div>
+          <div><div class="label">Location</div><div>${c.location}</div></div>
+        </div>
+        <div class="cta-row"><a href="${c.url}" target="_blank">View Website →</a></div>
+      </div>`;
+  }
+}
+
+document.getElementById("searchBar").addEventListener("input", e => { query = e.target.value.toLowerCase(); render(); });
+
+fetch('conferences.json').then(r => r.json()).then(data => { conferences = data; render(); });
+</script>
+</body>
+</html>
