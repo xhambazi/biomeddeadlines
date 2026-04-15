@@ -1,0 +1,49 @@
+name: Auto-update conference deadlines
+
+on:
+  schedule:
+    # Runs every Monday at 9am UTC
+    - cron: "0 9 * * 1"
+  workflow_dispatch:  # lets you trigger it manually from the Actions tab
+
+permissions:
+  contents: write   # needed to commit conferences.json back
+  issues: write     # needed to open a review issue
+
+jobs:
+  update-deadlines:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install anthropic
+
+      - name: Run deadline updater
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python monitor.py
+
+      - name: Commit updated conferences.json
+        run: |
+          git config user.name "BiomedDeadlines Bot"
+          git config user.email "biomeddeadlines@gmail.com"
+          git add conferences.json
+          # Only commit if something actually changed
+          git diff --cached --quiet || git commit -m "bot: auto-update expired deadlines [$(date -u +%Y-%m-%d)]"
+          git push
+
+      - name: Open GitHub Issue with review summary
+        if: ${{ hashFiles('update_summary.md') != '' }}
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: "🤖 Deadline update review — ${{ github.run_id }}"
+          content-filepath: update_summary.md
+          labels: bot-update, needs-review
