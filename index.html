@@ -5,73 +5,84 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BiomedDeadlines — Abstract deadlines for conferences</title>
 <style>
-  :root { 
-    --bg: #fafaf7; --card: #ffffff; --ink: #1a1a1a; --muted: #6b6b6b; 
-    --accent: #2d6a4f; --border: #e5e5e0; --red: #c1121f; --amber: #b07800; 
-    --green: #2d6a4f; --blue: #0284c7; --blue-soft: #e0f2fe; --gray-soft: #f3f3ee; 
-  }
-  * { box-sizing: border-box; } 
-  body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--ink); margin: 0; line-height: 1.5; }
-  a { color: var(--accent); } 
-  header { border-bottom: 1px solid var(--border); background: var(--card); padding: 22px 24px; }
-  .header-inner { max-width: 1200px; margin: 0 auto; } 
-  h1 { margin: 0; font-size: 24px; } 
-  h1 span { color: var(--accent); }
-  .layout { max-width: 1200px; margin: 24px auto; padding: 0 24px; display: grid; grid-template-columns: 1fr; gap: 28px; }
-  .controls { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 20px; }
-  .search-container input { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 16px; font-family: inherit; }
-  h3 { margin: 10px 0 8px; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
-  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 15px; }
-  .chip { padding: 6px 12px; border-radius: 20px; font-size: 13px; border: 1px solid var(--border); background: #fff; cursor: pointer; transition: 0.2s; }
-  .chip.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-  .chip.audience.active { background: var(--blue); border-color: var(--blue); color: #fff; }
-  .list { display: grid; gap: 14px; }
-  .conf { background: var(--card); border: 1px solid var(--border); border-left: 4px solid var(--green); border-radius: 10px; padding: 18px; }
-  .conf.urgent { border-left-color: var(--red); } 
-  .conf.soon { border-left-color: var(--amber); } 
-  .conf.past { opacity: 0.6; border-left-color: #bbb; padding: 12px 18px; background: #f9f9f7; }
-  .conf-top { display: flex; justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 10px;} 
-  .countdown { font-weight: bold; font-size: 13px; }
-  .countdown.urgent { color: var(--red); } 
-  .countdown.soon { color: var(--amber); } 
-  .countdown.past { color: var(--muted); }
-  .tag { font-size: 11px; background: var(--gray-soft); padding: 3px 8px; border-radius: 10px; margin-right: 4px; color: var(--muted); }
-  .tag-audience { font-size: 11px; background: var(--blue-soft); color: var(--blue); padding: 3px 8px; border-radius: 10px; margin-right: 4px; font-weight: 600; }
-  h2 { margin: 0 0 5px; font-size: 18px; } 
-  .fullname { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
-  .meta { display: flex; gap: 20px; font-size: 13px; flex-wrap: wrap; margin-bottom: 12px; } 
-  .label { color: var(--muted); font-size: 10px; text-transform: uppercase; }
-  .requirements-box { background: var(--gray-soft); padding: 10px 14px; border-radius: 6px; border-left: 3px solid var(--accent); font-size: 12px; color: var(--ink); margin-bottom: 12px; }
-  .requirements-box strong { color: var(--accent); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 4px; }
-  .cta-row { margin-top: 5px; font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 15px; }
-  .secondary-link { color: var(--muted); font-weight: normal; text-decoration: none; }
-  .secondary-link:hover { text-decoration: underline; }
-  
-  /* Styling for the Toggle Section */
-  .past-toggle-container { text-align: center; margin: 30px 0 10px; border-top: 1px dashed var(--border); padding-top: 20px; }
-  .toggle-btn { background: var(--gray-soft); border: 1px solid var(--border); padding: 8px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; color: var(--muted); font-weight: 500; }
-  .toggle-btn:hover { background: #ebebe5; }
+:root {
+  --bg: #fafaf7; --card: #ffffff; --ink: #1a1a1a; --muted: #6b6b6b;
+  --accent: #2d6a4f; --border: #e5e5e0; --red: #c1121f; --amber: #b07800;
+  --green: #2d6a4f; --blue: #0284c7; --blue-soft: #e0f2fe; --gray-soft: #f3f3ee;
+}
+* { box-sizing: border-box; }
+body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--ink); margin: 0; line-height: 1.5; }
+a { color: var(--accent); }
+header { border-bottom: 1px solid var(--border); background: var(--card); padding: 22px 24px; }
+.header-inner { max-width: 1200px; margin: 0 auto; }
+h1 { margin: 0; font-size: 24px; }
+h1 span { color: var(--accent); }
+.layout { max-width: 1200px; margin: 24px auto; padding: 0 24px; display: grid; gap: 28px; }
+.controls { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 20px; }
+.search-container input { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 16px; font-family: inherit; font-size: 14px; }
+h3 { margin: 10px 0 8px; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 15px; }
+.chip { padding: 6px 12px; border-radius: 20px; font-size: 13px; border: 1px solid var(--border); background: #fff; cursor: pointer; transition: 0.15s; }
+.chip:hover { background: var(--gray-soft); }
+.chip.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.chip.audience.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+.list { display: grid; gap: 14px; }
+.conf { background: var(--card); border: 1px solid var(--border); border-left: 4px solid var(--green); border-radius: 10px; padding: 18px; }
+.conf.urgent { border-left-color: var(--red); }
+.conf.soon { border-left-color: var(--amber); }
+.conf.past { opacity: 0.6; border-left-color: #bbb; padding: 12px 18px; background: #f9f9f7; }
+.conf-top { display: flex; justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; align-items: flex-start; }
+.countdown { font-weight: bold; font-size: 13px; white-space: nowrap; }
+.countdown.urgent { color: var(--red); }
+.countdown.soon { color: var(--amber); }
+.countdown.ok { color: var(--green); }
+.countdown.today { color: var(--red); }
+.countdown.past { color: var(--muted); }
+.tag { font-size: 11px; background: var(--gray-soft); padding: 3px 8px; border-radius: 10px; margin-right: 4px; color: var(--muted); }
+.tag-audience { font-size: 11px; background: var(--blue-soft); color: var(--blue); padding: 3px 8px; border-radius: 10px; margin-right: 4px; font-weight: 600; }
+h2 { margin: 0 0 4px; font-size: 18px; }
+.fullname { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+.meta { display: flex; gap: 20px; font-size: 13px; flex-wrap: wrap; margin-bottom: 12px; }
+.label { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: 0.3px; }
+.requirements-box { background: var(--gray-soft); padding: 10px 14px; border-radius: 6px; border-left: 3px solid var(--accent); font-size: 12px; color: var(--ink); margin-bottom: 12px; }
+.requirements-box strong { color: var(--accent); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 4px; }
+.cta-row { margin-top: 5px; font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
+.secondary-link { color: var(--muted); font-weight: normal; text-decoration: none; }
+.secondary-link:hover { text-decoration: underline; color: var(--ink); }
+.past-toggle-container { text-align: center; margin: 30px 0 10px; border-top: 1px dashed var(--border); padding-top: 20px; }
+.toggle-btn { background: var(--gray-soft); border: 1px solid var(--border); padding: 8px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; color: var(--muted); font-weight: 500; }
+.toggle-btn:hover { background: #ebebe5; }
+.empty-state { text-align: center; padding: 48px 24px; color: var(--muted); font-size: 15px; }
+details > summary { list-style: none; }
+details > summary::-webkit-details-marker { display: none; }
 
-  details > summary { list-style: none; }
-  details > summary::-webkit-details-marker { display: none; }
+@media (max-width: 600px) {
+  h2 { font-size: 15px; }
+  .meta { gap: 12px; }
+  .layout { padding: 0 14px; }
+}
 </style>
 </head>
 <body>
 
-<header><div class="header-inner"><h1>Biomed<span>Deadlines</span></h1></div></header>
+<header>
+  <div class="header-inner">
+    <h1>Biomed<span>Deadlines</span></h1>
+  </div>
+</header>
 
 <div class="layout">
   <main>
     <div class="controls">
-      <div class="search-container"><input type="text" id="searchBar" placeholder="Search conferences, cities, or keywords..."></div>
-      
+      <div class="search-container">
+        <input type="text" id="searchBar" placeholder="Search conferences, societies, cities, or keywords...">
+      </div>
       <h3>Filter by Subfield</h3>
       <div class="chips" id="subfieldChips"></div>
-
       <h3>Filter by Career Stage / Target Audience</h3>
       <div class="chips" id="audienceChips"></div>
     </div>
-    
+
     <div style="background: #e0f2fe; border: 1px dashed #0284c7; border-radius: 10px; padding: 15px; text-align: center; margin-bottom: 20px;">
       <span style="font-size: 11px; color: #0284c7; text-transform: uppercase; font-weight: bold; display: block; margin-bottom: 5px;">Feedback</span>
       <a href="mailto:biomeddeadlines@gmail.com" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 15px;">
@@ -85,42 +96,173 @@
 </div>
 
 <script>
-const SUBFIELDS = { cancer: "Cancer", immuno: "Immunology", neuro: "Neuroscience", cardio: "Cardiology", imaging: "Imaging", cellbio: "Cell Bio", biophysics: "Biophysics", hematology: "Hematology", pulm: "Pulmonary", endo: "Endocrine", id: "Infectious Disease", ent: "ENT", biomedeng: "Biomedical Eng", radonc: "Radiation Onc", clinical: "Clinical", genetics: "Genetics", bioinfo: "Bioinformatics", peds: "Pediatrics", surgery: "Surgery", global: "Global Health", psych: "Psychiatry", derm: "Dermatology", vision: "Ophthalmology" };
-const AUDIENCES = { undergrad: "Undergrads", grad: "Grads & PhDs", early: "New Scientists / Postdocs", med: "Med Students", clinician: "Clinicians / MDs", biotech: "Biotech / Industry", nurse: "Nurses", pharma: "Pharma", investor: "Investors" };
+const SUBFIELDS = {
+  cancer: "Cancer", immuno: "Immunology", neuro: "Neuroscience", cardio: "Cardiology",
+  imaging: "Imaging", cellbio: "Cell Bio", biophysics: "Biophysics", hematology: "Hematology",
+  pulm: "Pulmonary", endo: "Endocrine", id: "Infectious Disease", ent: "ENT",
+  biomedeng: "Biomedical Eng", radonc: "Radiation Onc", clinical: "Clinical",
+  genetics: "Genetics", bioinfo: "Bioinformatics", peds: "Pediatrics",
+  surgery: "Surgery", global: "Global Health", psych: "Psychiatry",
+  derm: "Dermatology", vision: "Ophthalmology"
+};
+
+const AUDIENCES = {
+  undergrad: "Undergrads", grad: "Grads & PhDs", early: "New Scientists / Postdocs",
+  med: "Med Students", clinician: "Clinicians / MDs", biotech: "Biotech / Industry",
+  nurse: "Nurses", pharma: "Pharma", investor: "Investors"
+};
 
 let conferences = [];
 let query = "";
 let activeSubfield = null;
 let activeAudience = null;
-let showPast = false; // Controls visibility of expired conferences
+let showPast = false;
+
+// FIX: format ISO date strings into readable form (e.g. "Apr 20, 2026")
+function fmtDate(iso) {
+  if (!iso) return "TBD";
+  const d = new Date(iso + "T00:00:00");
+  return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+}
 
 function daysUntil(iso) {
   const target = new Date(iso + "T00:00:00");
   return Math.floor((target - new Date().setHours(0,0,0,0)) / 86400000);
 }
 
+// FIX: "0 days left" → "Due today!" etc.
+function countdownLabel(d) {
+  if (d < 0) return "Closed";
+  if (d === 0) return "Due today!";
+  if (d === 1) return "1 day left";
+  return d + " days left";
+}
+
+function countdownClass(d) {
+  if (d < 0) return "past";
+  if (d === 0) return "today urgent";
+  if (d < 14) return "urgent";
+  if (d < 45) return "soon";
+  return "ok";
+}
+
 function renderChips() {
   const subContainer = document.getElementById("subfieldChips");
-  subContainer.innerHTML = `<button class="chip ${!activeSubfield ? 'active' : ''}" onclick="activeSubfield=null; render();">All Subfields</button>`;
-  for(let key in SUBFIELDS) {
-    subContainer.innerHTML += `<button class="chip ${activeSubfield===key ? 'active' : ''}" onclick="activeSubfield='${key}'; render();">${SUBFIELDS[key]}</button>`;
+  subContainer.innerHTML = "";
+
+  const allSub = document.createElement("button");
+  allSub.className = "chip" + (!activeSubfield ? " active" : "");
+  allSub.textContent = "All Subfields";
+  allSub.onclick = () => { activeSubfield = null; render(); };
+  subContainer.appendChild(allSub);
+
+  for (const key in SUBFIELDS) {
+    const btn = document.createElement("button");
+    btn.className = "chip" + (activeSubfield === key ? " active" : "");
+    btn.textContent = SUBFIELDS[key];
+    btn.onclick = () => { activeSubfield = key; render(); };
+    subContainer.appendChild(btn);
   }
 
   const audContainer = document.getElementById("audienceChips");
-  audContainer.innerHTML = `<button class="chip audience ${!activeAudience ? 'active' : ''}" onclick="activeAudience=null; render();">All Audiences</button>`;
-  for(let key in AUDIENCES) {
-    audContainer.innerHTML += `<button class="chip audience ${activeAudience===key ? 'active' : ''}" onclick="activeAudience='${key}'; render();">${AUDIENCES[key]}</button>`;
+  audContainer.innerHTML = "";
+
+  const allAud = document.createElement("button");
+  allAud.className = "chip audience" + (!activeAudience ? " active" : "");
+  allAud.textContent = "All Audiences";
+  allAud.onclick = () => { activeAudience = null; render(); };
+  audContainer.appendChild(allAud);
+
+  for (const key in AUDIENCES) {
+    const btn = document.createElement("button");
+    btn.className = "chip audience" + (activeAudience === key ? " active" : "");
+    btn.textContent = AUDIENCES[key];
+    btn.onclick = () => { activeAudience = key; render(); };
+    audContainer.appendChild(btn);
+  }
+}
+
+function createCard(c, isPast) {
+  const d = daysUntil(c.abstractDeadline);
+  const status = d < 0 ? "past" : d < 14 ? "urgent" : d < 45 ? "soon" : "ok";
+  const audTags = c.audience ? c.audience.map(a => `<span class="tag-audience">${AUDIENCES[a] || a}</span>`).join("") : "";
+  const subTags = c.tags ? c.tags.map(t => `<span class="tag">${SUBFIELDS[t] || t}</span>`).join("") : "";
+  // FIX: use proper _blank (no backslash)
+  const verifyLink = c.deadlineUrl
+    ? `<a href="${c.deadlineUrl}" class="secondary-link" target="_blank" rel="noopener">Verify date ↗</a>`
+    : "";
+  const requirementsHTML = c.requirements
+    ? `<div class="requirements-box"><strong>Submission Requirements:</strong>${c.requirements}</div>`
+    : "";
+
+  // FIX: use formatted dates everywhere
+  const deadlineFmt = fmtDate(c.abstractDeadline);
+  const dateRange = `${fmtDate(c.conferenceStart)} – ${fmtDate(c.conferenceEnd)}`;
+
+  if (isPast) {
+    return `
+    <details class="conf past">
+      <summary style="cursor: pointer; outline: none; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+        <span class="countdown past">Closed</span>
+        <h2 style="margin: 0; font-size: 15px;">${c.name}</h2>
+        <span style="font-size: 11px; color: var(--muted); margin-left: auto;">click to expand</span>
+      </summary>
+      <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border);">
+        <div class="fullname">${c.fullName || ""}</div>
+        <div class="meta">
+          <div><div class="label">Deadline</div><div>${deadlineFmt}</div></div>
+          <div><div class="label">Conference</div><div>${dateRange}</div></div>
+          <div><div class="label">Location</div><div>${c.location}</div></div>
+        </div>
+        ${requirementsHTML}
+        <div class="cta-row">
+          <a href="${c.url}" target="_blank" rel="noopener">View Website →</a>
+          ${verifyLink}
+        </div>
+      </div>
+    </details>`;
+  } else {
+    return `
+    <div class="conf ${status}">
+      <div class="conf-top">
+        <span class="countdown ${countdownClass(d)}">${countdownLabel(d)}</span>
+        <div>${audTags}${subTags}</div>
+      </div>
+      <h2>${c.name}</h2>
+      <div class="fullname">${c.fullName || ""}</div>
+      <div class="meta">
+        <div><div class="label">Abstract Deadline</div><div>${deadlineFmt}</div></div>
+        <div><div class="label">Conference</div><div>${dateRange}</div></div>
+        <div><div class="label">Location</div><div>${c.location}</div></div>
+      </div>
+      ${requirementsHTML}
+      <div class="cta-row">
+        <a href="${c.url}" target="_blank" rel="noopener">View Website →</a>
+        ${verifyLink}
+      </div>
+    </div>`;
   }
 }
 
 function render() {
   renderChips();
+
   const list = document.getElementById("list");
   const pastSection = document.getElementById("past-section");
   list.innerHTML = "";
   pastSection.innerHTML = "";
-  
-  let filtered = conferences.filter(c => c.name.toLowerCase().includes(query) || c.location.toLowerCase().includes(query));
+
+  // FIX: search now also checks fullName and tags
+  let filtered = conferences.filter(c => {
+    const q = query.toLowerCase();
+    return (
+      (c.name || "").toLowerCase().includes(q) ||
+      (c.fullName || "").toLowerCase().includes(q) ||
+      (c.location || "").toLowerCase().includes(q) ||
+      (c.tags || []).some(t => (SUBFIELDS[t] || t).toLowerCase().includes(q))
+    );
+  });
+
   if (activeSubfield) filtered = filtered.filter(c => c.tags && c.tags.includes(activeSubfield));
   if (activeAudience) filtered = filtered.filter(c => c.audience && c.audience.includes(activeAudience));
 
@@ -129,84 +271,57 @@ function render() {
   const activeConfs = filtered.filter(c => daysUntil(c.abstractDeadline) >= 0);
   const pastConfs = filtered.filter(c => daysUntil(c.abstractDeadline) < 0);
 
-  // Helper to generate Card HTML
-  function createCard(c, isPast) {
-    const d = daysUntil(c.abstractDeadline);
-    const status = d < 0 ? "past" : d < 14 ? "urgent" : d < 45 ? "soon" : "ok";
-    const audTags = c.audience ? c.audience.map(a => `<span class="tag-audience">${AUDIENCES[a]||a}</span>`).join('') : '';
-    const subTags = c.tags ? c.tags.map(t => `<span class="tag">${SUBFIELDS[t]||t}</span>`).join('') : '';
-    const deadlineLinkHTML = c.deadlineUrl ? `<a href="${c.deadlineUrl}" class="secondary-link" target="_blank">Verify Date ↗</a>` : '';
-    const requirementsHTML = c.requirements ? `<div class="requirements-box"><strong>Submission Requirements:</strong>${c.requirements}</div>` : '';
-
-    if (isPast) {
-        return `
-        <details class="conf past">
-          <summary style="cursor: pointer; outline: none; display: flex; align-items: center; gap: 10px;">
-            <span class="countdown past">Closed</span>
-            <h2 style="margin: 0; font-size: 15px;">${c.name}</h2>
-            <span style="font-size: 11px; color: var(--muted); margin-left: auto;">(Click to expand)</span>
-          </summary>
-          <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border);">
-            <div class="fullname">${c.fullName}</div>
-            <div class="meta">
-              <div><div class="label">Deadline</div><div>${c.abstractDeadline}</div></div>
-              <div><div class="label">Dates</div><div>${c.conferenceStart} to ${c.conferenceEnd}</div></div>
-              <div><div class="label">Location</div><div>${c.location}</div></div>
-            </div>
-            ${requirementsHTML}
-            <div class="cta-row"><a href="${c.url}" target="_blank">View Website →</a>${deadlineLinkHTML}</div>
-          </div>
-        </details>`;
-    } else {
-        return `
-        <div class="conf ${status}">
-          <div class="conf-top">
-            <span class="countdown ${status}">${d + ' days left'}</span>
-            <div>${audTags}${subTags}</div>
-          </div>
-          <h2>${c.name}</h2><div class="fullname">${c.fullName}</div>
-          <div class="meta">
-            <div><div class="label">Deadline</div><div>${c.abstractDeadline}</div></div>
-            <div><div class="label">Dates</div><div>${c.conferenceStart} to ${c.conferenceEnd}</div></div>
-            <div><div class="label">Location</div><div>${c.location}</div></div>
-          </div>
-          ${requirementsHTML}
-          <div class="cta-row"><a href="${c.url}" target="_blank">View Website →</a>${deadlineLinkHTML}</div>
-        </div>`;
-    }
+  // FIX: empty state
+  if (activeConfs.length === 0 && pastConfs.length === 0) {
+    list.innerHTML = `<div class="empty-state">No conferences match your filters.<br><span style="font-size: 13px;">Try clearing the search or selecting a different subfield.</span></div>`;
+    return;
   }
 
-  // Render Active
-  activeConfs.forEach(c => list.innerHTML += createCard(c, false));
+  if (activeConfs.length === 0) {
+    list.innerHTML = `<div class="empty-state" style="padding: 24px;">No upcoming conferences match your filters.</div>`;
+  } else {
+    activeConfs.forEach(c => { list.innerHTML += createCard(c, false); });
+  }
 
-  // Render Past Toggle
   if (pastConfs.length > 0) {
     pastSection.innerHTML = `
       <div class="past-toggle-container">
-        <button class="toggle-btn" onclick="showPast = !showPast; render();">
-          ${showPast ? 'Hide Expired Deadlines' : 'Show Expired Deadlines (' + pastConfs.length + ')'}
+        <button class="toggle-btn" id="pastToggleBtn">
+          ${showPast ? "Hide Expired Deadlines" : "Show Expired Deadlines (" + pastConfs.length + ")"}
         </button>
       </div>
-      <div id="past-list" class="list" style="display: ${showPast ? 'grid' : 'none'}; margin-top: 20px;"></div>
+      <div id="past-list" class="list" style="display: ${showPast ? "grid" : "none"}; margin-top: 20px;"></div>
     `;
-    const pastList = document.getElementById("past-list");
-    pastConfs.forEach(c => pastList.innerHTML += createCard(c, true));
+    document.getElementById("pastToggleBtn").onclick = () => {
+      showPast = !showPast;
+      render();
+    };
+    if (showPast) {
+      const pastList = document.getElementById("past-list");
+      pastConfs.forEach(c => { pastList.innerHTML += createCard(c, true); });
+    }
   }
 }
 
-document.getElementById("searchBar").addEventListener("input", e => { query = e.target.value.toLowerCase(); render(); });
+document.getElementById("searchBar").addEventListener("input", e => {
+  query = e.target.value.toLowerCase();
+  render();
+});
 
-fetch('conferences.json')
-  .then(response => {
-    if (!response.ok) throw new Error("Network response was not ok");
-    return response.json();
+fetch("conferences.json")
+  .then(r => {
+    if (!r.ok) throw new Error("Network response was not ok");
+    return r.json();
   })
-  .then(data => { conferences = data; render(); })
-  .catch(error => {
+  .then(data => {
+    conferences = data;
+    render();
+  })
+  .catch(() => {
     document.getElementById("list").innerHTML = `
       <div style="background: #fde8ea; color: #c1121f; padding: 20px; border-radius: 10px; border: 1px solid #c1121f;">
-        <strong>⚠️ Database Error Detected!</strong><br><br>
-        Check your <code>conferences.json</code> file for typos.
+        <strong>⚠️ Could not load conferences.json</strong><br><br>
+        Check the file for JSON syntax errors (missing commas, unclosed brackets, etc.) or open the browser console for details.
       </div>`;
   });
 </script>
